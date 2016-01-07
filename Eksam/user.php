@@ -31,13 +31,18 @@
 	   <input type="submit" name="acsess" value="Request" />
 	</form>
  <?php if(isSet($_REQUEST["acsess"])){
-     $connection->prepare(
-      "SELECT rights (doorname, cardtype) VALUES (?, ?)")->
-      execute(array($_REQUEST["text1"], $_REQUEST["text2"]));
-     echo "You can enter the door";
-  } else {
+
+     $stmt=$connectionm->prepare(
+      "SELECT id FROM rights WHERE doorname = ? AND cardtype = ?");
+     $stmt->bind_param("ii", $_REQUEST["text1"], $_REQUEST["text2"]);
+     $stmt->execute();
+
+      if($stmt->fetch()){
+	     echo "you can enter";
+	   }else {
      echo "You can't enter the door";
   }
+}
   ?>
 </body>
 </html>
